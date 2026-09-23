@@ -1,0 +1,494 @@
+:root {
+    --text: #1a1a2e;
+    --muted: #6b7280;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7dd3fc 0%,
+            #38bdf8 45%,
+            #0ea5e9 100%
+        );
+
+    color: var(--text);
+
+    line-height: 1.5;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 1.5rem;
+}
+
+
+/* Main Wrapper */
+
+.wrap {
+    width: 100%;
+
+    max-width: 980px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+
+/* Small Heading */
+
+.eyebrow {
+    text-align: center;
+
+    color: rgba(255, 255, 255, 0.9);
+
+    font-size: 0.72rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 0.5rem;
+}
+
+
+/* Main Heading */
+
+h1 {
+    text-align: center;
+
+    color: #ffffff;
+
+    font-size: 2rem;
+
+    font-weight: 800;
+
+    margin-bottom: 0.4rem;
+
+    letter-spacing: -0.02em;
+}
+
+
+/* Subtitle */
+
+.subtitle {
+    text-align: center;
+
+    color: rgba(255, 255, 255, 0.9);
+
+    font-size: 0.9rem;
+
+    margin-bottom: 1.75rem;
+}
+
+
+/* Architecture Box */
+
+.diagram {
+    width: 100%;
+
+    background: #ffffff;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 25px 60px rgba(15, 23, 42, 0.35);
+
+    padding: 2rem 2rem 1.75rem;
+
+    position: relative;
+}
+
+
+/* Three Tier Track */
+
+.track {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    position: relative;
+}
+
+
+/* Connecting Line */
+
+.track::before {
+    content: "";
+
+    position: absolute;
+
+    top: 38px;
+
+    left: 38px;
+
+    right: 38px;
+
+    height: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #f59e0b,
+            #ec4899,
+            #06b6d4
+        );
+
+    z-index: 0;
+
+    border-radius: 3px;
+}
+
+
+/* Node */
+
+.node {
+    position: relative;
+
+    z-index: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+    flex: 1;
+}
+
+
+/* EC2 */
+
+.node.ec2 {
+    --accent: #f59e0b;
+}
+
+
+/* RDS */
+
+.node.rds {
+    --accent: #ec4899;
+}
+
+
+/* S3 */
+
+.node.s3 {
+    --accent: #06b6d4;
+}
+
+
+/* Circle */
+
+.node .circle {
+    width: 76px;
+
+    height: 76px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 1.9rem;
+
+    background: #ffffff;
+
+    border: 4px solid var(--accent);
+
+    box-shadow:
+        0 10px 24px
+        rgba(15, 23, 42, 0.18);
+
+    margin-bottom: 0.85rem;
+
+    transition: 0.3s ease;
+}
+
+
+/* Circle Hover */
+
+.node:hover .circle {
+    transform: scale(1.12);
+
+    box-shadow:
+        0 12px 30px
+        rgba(15, 23, 42, 0.25);
+}
+
+
+/* Tier Label */
+
+.node .tag {
+    font-size: 0.64rem;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    color: var(--accent);
+
+    margin-bottom: 0.3rem;
+}
+
+
+/* Service Heading */
+
+.node h2 {
+    font-size: 1.05rem;
+
+    font-weight: 700;
+
+    margin-bottom: 0.35rem;
+}
+
+
+/* Description */
+
+.node p {
+    color: var(--muted);
+
+    font-size: 0.78rem;
+
+    max-width: 200px;
+}
+
+
+/* Flow Information */
+
+.flow-caption {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 0.6rem;
+
+    text-align: center;
+
+    margin: 1.75rem auto 0;
+
+    max-width: 660px;
+
+    background:
+        linear-gradient(
+            120deg,
+            #38bdf8,
+            #0ea5e9,
+            #7dd3fc,
+            #38bdf8
+        );
+
+    background-size: 300% 300%;
+
+    animation:
+        shimmer 6s ease infinite;
+
+    color: #ffffff;
+
+    font-size: 0.85rem;
+
+    font-weight: 500;
+
+    padding: 0.95rem 1.75rem;
+
+    border-radius: 999px;
+
+    box-shadow:
+        0 14px 32px
+        rgba(14, 165, 233, 0.45);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.4);
+}
+
+
+/* Lightning */
+
+.flow-caption .bolt {
+    font-size: 1.1rem;
+
+    flex-shrink: 0;
+}
+
+
+/* Highlight Text */
+
+.flow-caption strong {
+    color: #fde047;
+
+    font-weight: 800;
+
+    text-decoration: underline;
+
+    text-decoration-color:
+        rgba(253, 224, 71, 0.5);
+
+    text-underline-offset: 3px;
+}
+
+
+/* Animation */
+
+@keyframes shimmer {
+
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+/* Footer */
+
+footer {
+    margin-top: 1.5rem;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.6rem;
+
+    background:
+        rgba(255, 255, 255, 0.18);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.4);
+
+    backdrop-filter: blur(8px);
+
+    color: #ffffff;
+
+    font-size: 0.85rem;
+
+    padding: 0.55rem 1.4rem;
+
+    border-radius: 999px;
+}
+
+
+/* Footer Name */
+
+footer .name {
+    font-weight: 800;
+
+    color: #fde047;
+
+    letter-spacing: 0.02em;
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 700px) {
+
+    body {
+        padding: 1rem;
+    }
+
+    .diagram {
+        padding: 1.5rem 1rem;
+    }
+
+    .track {
+        flex-direction: column;
+
+        gap: 2rem;
+    }
+
+    .track::before {
+        top: 38px;
+
+        bottom: 38px;
+
+        left: 50%;
+
+        right: auto;
+
+        width: 4px;
+
+        height: auto;
+
+        background:
+            linear-gradient(
+                180deg,
+                #f59e0b,
+                #ec4899,
+                #06b6d4
+            );
+    }
+
+    .node p {
+        max-width: 280px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .flow-caption {
+        border-radius: 20px;
+
+        padding: 1rem;
+    }
+
+    footer {
+        text-align: center;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+    }
+}

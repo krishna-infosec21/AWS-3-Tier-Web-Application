@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Three-Tier AWS Application</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+    <div class="eyebrow">
+        AWS Cloud Architecture
+    </div>
+
+    <h1>
+        Three-Tier Application
+    </h1>
+
+    <p class="subtitle">
+        A single connected flow across compute, data, and storage
+    </p>
+
+
+    <div class="diagram">
+
+        <div class="track">
+
+
+            <!-- EC2 -->
+
+            <div class="node ec2">
+
+                <div class="circle">
+                    🖥️
+                </div>
+
+                <span class="tag">
+                    Application Tier
+                </span>
+
+                <h2>
+                    Amazon EC2
+                </h2>
+
+                <p>
+                    Runs your application logic on scalable
+                    virtual servers.
+                </p>
+
+            </div>
+
+
+            <!-- RDS -->
+
+            <div class="node rds">
+
+                <div class="circle">
+                    🗄️
+                </div>
+
+                <span class="tag">
+                    Data Tier
+                </span>
+
+                <h2>
+                    Amazon RDS
+                </h2>
+
+                <p>
+                    Managed, secure relational database
+                    with automated backups.
+                </p>
+
+            </div>
+
+
+            <!-- S3 -->
+
+            <div class="node s3">
+
+                <div class="circle">
+                    📦
+                </div>
+
+                <span class="tag">
+                    Storage Tier
+                </span>
+
+                <h2>
+                    Amazon S3
+                </h2>
+
+                <p>
+                    Durable object storage for assets
+                    and application data.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <p class="flow-caption">
+
+            <span class="bolt">
+                ⚡
+            </span>
+
+            Client requests hit
+            <strong>EC2</strong>,
+
+            which reads and writes to
+            <strong>RDS</strong>
+
+            while offloading files and backups to
+            <strong>S3</strong>.
+
+        </p>
+
+    </div>
+
+
+    <footer>
+
+        &copy; 2026
+
+        <span class="name">
+            J.KRISHNAKUMAR
+        </span>
+
+        — Built on Amazon Web Services
+
+    </footer>
+
+</div>
+
+</body>
+</html>
