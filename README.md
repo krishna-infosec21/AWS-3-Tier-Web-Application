@@ -2,28 +2,26 @@
 
 ## AWS Cloud Architecture Solution
 
-A highly available and scalable **3-Tier Web Application deployed on Amazon Web Services (AWS)** using multiple AWS services for networking, compute, database, storage, security, DNS, CDN, monitoring, and automation.
+A highly available and scalable **3-Tier Web Application deployed on Amazon Web Services (AWS)** using AWS networking, compute, database, storage, security, DNS, CDN, monitoring, and automation services.
 
-The project demonstrates how a web application can be designed using AWS cloud architecture principles with **high availability, scalability, security, centralized access control, monitoring, and reliable application delivery**.
+This project demonstrates the practical implementation of a secure, scalable, and highly available cloud architecture using multiple AWS services.
 
 ---
 
 ## 📌 Project Overview
 
-This project implements a **3-Tier Web Application Architecture on AWS** consisting of:
+The project implements a **3-Tier AWS Web Application Architecture** with the following layers:
 
-* **Presentation / Web Layer** – Application Load Balancer and CloudFront
-* **Application Layer** – EC2 instances running Apache with Auto Scaling
+* **Presentation Layer** – Route 53, CloudFront and Application Load Balancer
+* **Application Layer** – Amazon EC2 and Auto Scaling
 * **Database Layer** – Amazon RDS MySQL
 * **Storage** – Amazon S3
-* **DNS** – Amazon Route 53
+* **Security** – IAM, Security Groups and Secrets Manager
+* **Management** – AWS Systems Manager
 * **HTTPS** – AWS Certificate Manager
-* **Secrets Management** – AWS Secrets Manager
 * **Monitoring** – Amazon CloudWatch
 * **Notifications** – Amazon SNS
-* **Identity and Access Management** – AWS IAM
-* **Server Management** – AWS Systems Manager
-* **Networking** – Amazon VPC, Internet Gateway, NAT Gateway, Route Tables and Security Groups
+* **Networking** – Amazon VPC, Internet Gateway, NAT Gateway and Route Tables
 
 ---
 
@@ -38,35 +36,46 @@ This project implements a **3-Tier Web Application Architecture on AWS** consist
 ```text
                          Internet
                             |
-                         Route 53
+                        Route 53
                             |
                        CloudFront
                             |
                           HTTPS
                             |
-                    Application Load Balancer
+             Application Load Balancer
                             |
-                     Target Group
+                      Target Group
                        /         \
                       /           \
-             EC2 Instance       EC2 Instance
-               AZ-1                AZ-2
-                  \                 /
-                   \               /
+             EC2 Instance     EC2 Instance
+                AZ-1              AZ-2
+                    \             /
+                     \           /
                     Auto Scaling
-                          |
-                    Application Tier
-                          |
+                         |
+                 Application Tier
+                         |
                     RDS MySQL
-                  Private Database
-                          
-        Supporting AWS Services
-        ├── Amazon S3
-        ├── AWS Secrets Manager
-        ├── AWS IAM
-        ├── AWS Systems Manager
-        ├── Amazon CloudWatch
-        └── Amazon SNS
+```
+
+### Supporting Services
+
+```text
+EC2
+ |
+ +---- IAM Role
+ |
+ +---- Secrets Manager
+ |
+ +---- Amazon S3
+ |
+ +---- AWS Systems Manager
+
+CloudWatch
+ |
+SNS
+ |
+Email Notifications
 ```
 
 ---
@@ -76,28 +85,26 @@ This project implements a **3-Tier Web Application Architecture on AWS** consist
 ```text
                          Internet
                             |
-                     Internet Gateway
+                  Internet Gateway
                             |
-                +-----------+-----------+
-                |                       |
-          Public Subnet AZ1       Public Subnet AZ2
-                |                       |
-          NAT Gateway              NAT Gateway
-                |                       |
-                +-----------+-----------+
+              +-------------+-------------+
+              |                           |
+        Public Subnet AZ1           Public Subnet AZ2
+              |                           |
+        NAT Gateway                 NAT Gateway
+              |                           |
+              +-------------+-------------+
                             |
                  Private Application Subnets
-                     /              \
-                    /                \
-              EC2 Instance        EC2 Instance
-                    \                /
-                     \              /
-                      Private DB Subnets
-                             |
-                         RDS MySQL
+                      /               \
+                     /                 \
+                EC2 AZ1             EC2 AZ2
+                     \                 /
+                      \               /
+                       Private DB Subnets
+                              |
+                          RDS MySQL
 ```
-
-The application servers are placed in private subnets while the required public-facing components are placed in public subnets.
 
 ---
 
@@ -110,12 +117,12 @@ The application servers are placed in private subnets while the required public-
 | Internet Gateway          | Internet connectivity                          |
 | NAT Gateway               | Outbound internet access for private resources |
 | Route Tables              | Network traffic routing                        |
-| Security Groups           | Instance and service-level firewall rules      |
+| Security Groups           | Network-level access control                   |
 | Amazon EC2                | Application servers                            |
-| Application Load Balancer | Distributes incoming application traffic       |
+| Application Load Balancer | Distributes application traffic                |
 | Auto Scaling              | Maintains application capacity                 |
 | Amazon RDS MySQL          | Managed relational database                    |
-| Amazon S3                 | Object and static storage                      |
+| Amazon S3                 | Object and application storage                 |
 | Amazon CloudFront         | CDN and content delivery                       |
 | Amazon Route 53           | DNS management                                 |
 | AWS Certificate Manager   | SSL/TLS certificates                           |
@@ -123,7 +130,7 @@ The application servers are placed in private subnets while the required public-
 | AWS IAM                   | Identity and access management                 |
 | AWS Systems Manager       | Secure EC2 management                          |
 | Amazon CloudWatch         | Monitoring and alarms                          |
-| Amazon SNS                | Email notifications                            |
+| Amazon SNS                | Notifications                                  |
 
 ---
 
@@ -138,17 +145,17 @@ Components:
 * Amazon Route 53
 * Amazon CloudFront
 * Application Load Balancer
-* HTTPS / SSL
-
-Request flow:
+* HTTPS
 
 ```text
 User
- ↓
+ |
 Route 53
- ↓
+ |
 CloudFront
- ↓
+ |
+HTTPS
+ |
 Application Load Balancer
 ```
 
@@ -156,7 +163,7 @@ Application Load Balancer
 
 ## 2️⃣ Application Tier
 
-The application tier processes user requests.
+The application layer processes user requests.
 
 Components:
 
@@ -166,27 +173,27 @@ Components:
 * Target Group
 * Private Application Subnets
 
-Multiple EC2 instances are distributed across Availability Zones to improve application availability.
-
 ```text
-ALB
- |
- +---- EC2 AZ1
- |
- +---- EC2 AZ2
+                 Application Load Balancer
+                           |
+                     Target Group
+                       /       \
+                      /         \
+                   EC2         EC2
+                  AZ-1        AZ-2
 ```
 
 ---
 
 ## 3️⃣ Database Tier
 
-The database tier stores application data.
+The database layer stores application data.
 
 Component:
 
 * Amazon RDS MySQL
 
-The database is placed inside private subnets and is not directly exposed to the public internet.
+The database is deployed in private subnets and is not directly exposed to the public internet.
 
 ```text
 EC2 Application Tier
@@ -207,21 +214,19 @@ The application is deployed inside a dedicated Amazon VPC.
 10.0.0.0/16
 ```
 
-The VPC provides an isolated network environment for the application infrastructure.
+The network is separated into:
 
-The network is divided into:
+* Public subnets
+* Private application subnets
+* Private database subnets
 
-* Public Subnets
-* Private Application Subnets
-* Private Database Subnets
+This segmentation helps control network access between the different application tiers.
 
 ---
 
 # 🌍 Internet Gateway
 
-The **Internet Gateway (IGW)** provides internet connectivity for resources that require public internet access.
-
-The Internet Gateway is attached to the VPC and is associated with public subnet routing.
+The Internet Gateway provides internet connectivity for resources that require public network access.
 
 ```text
 Internet
@@ -231,13 +236,13 @@ Internet Gateway
 Public Subnet
 ```
 
+The Internet Gateway is attached to the VPC.
+
 ---
 
 # 🔄 NAT Gateway
 
-The NAT Gateway allows resources in private subnets to access the internet for outbound communication without exposing private resources directly to inbound internet traffic.
-
-Example:
+The NAT Gateway provides outbound internet access for resources deployed in private subnets.
 
 ```text
 Private EC2
@@ -249,37 +254,35 @@ Internet Gateway
 Internet
 ```
 
-This design allows private application servers to download updates and packages while remaining in private subnets.
+Private application servers can access required external resources without being directly exposed to inbound internet traffic.
 
 ---
 
 # 🛣️ Route Tables
 
-Route tables control traffic flow between subnets and network components.
+Route Tables control network traffic within the VPC.
 
-Typical routing:
-
-### Public Route Table
+### Public Route
 
 ```text
 0.0.0.0/0 → Internet Gateway
 ```
 
-### Private Route Table
+### Private Route
 
 ```text
 0.0.0.0/0 → NAT Gateway
 ```
 
-Local VPC traffic remains available through the VPC's local route.
+Local VPC traffic uses the VPC local route.
 
 ---
 
 # 🔐 Security Groups
 
-Security Groups are used as virtual firewalls to control inbound and outbound traffic.
+Security Groups are used as virtual firewalls.
 
-Example architecture:
+The application follows controlled communication between the tiers.
 
 ```text
 Internet
@@ -297,61 +300,61 @@ EC2 Security Group
 RDS Security Group
 ```
 
-The database security group allows database access only from the required application tier rather than directly from the internet.
+The database is not directly exposed to the public internet.
 
 ---
 
 # ⚖️ Application Load Balancer
 
-An **Application Load Balancer (ALB)** distributes incoming application traffic across multiple EC2 instances.
+The Application Load Balancer distributes incoming application traffic across healthy EC2 instances.
 
-Benefits:
-
-* High availability
-* Traffic distribution
-* Health checks
-* Automatic removal of unhealthy targets
-* Integration with Auto Scaling
-* HTTPS support
-
-Architecture:
+### Load Balancer
 
 ```text
-Users
-  |
- ALB
-  |
-Target Group
- /       \
-EC2      EC2
-AZ1      AZ2
+three-tier-alb
 ```
+
+### Target Group
+
+```text
+three-tier-targets
+```
+
+### Health Check
+
+```text
+Protocol: HTTP
+Port: 80
+Path: /
+```
+
+The ALB uses target health checks to determine which application instances can receive traffic.
 
 ---
 
 # 🎯 Target Group
 
-The Target Group contains the EC2 instances that receive traffic from the Application Load Balancer.
+The Target Group contains the EC2 instances registered with the Application Load Balancer.
 
-Health checks are used to verify whether application instances are healthy.
-
-Example:
+The health check verifies the application server status.
 
 ```text
-Protocol: HTTP
-Port: 80
-Health Check Path: /
+ALB
+ |
+Target Group
+ |
+ +---- EC2 AZ1
+ |
+ +---- EC2 AZ2
 ```
 
-If an instance becomes unhealthy, the ALB can stop routing traffic to that instance.
+Unhealthy instances can be removed from traffic routing until they become healthy again.
 
 ---
 
 # 📈 Auto Scaling
 
-The Auto Scaling Group automatically manages EC2 application instances according to the configured capacity and scaling policy.
-
-Configuration used in the project:
+The application tier is managed using an Auto Scaling Group.
 
 ```text
 Auto Scaling Group: three-tier-asg
@@ -362,46 +365,36 @@ Maximum Capacity: 4
 Target CPU: 60%
 ```
 
-The application servers are distributed across multiple private subnets / Availability Zones.
-
-### Benefits
+Auto Scaling provides:
 
 * Automatic scaling
-* High availability
-* Fault tolerance
-* Reduced manual management
-* Automatic replacement of unhealthy instances
+* Instance replacement
+* Improved availability
+* Better resource management
+* Multi-AZ application deployment
 
 ---
 
 # 🖥️ Amazon EC2
 
-Amazon EC2 provides the compute resources for the application tier.
+Amazon EC2 provides compute resources for the application tier.
 
 The EC2 instances:
 
-* Run inside private application subnets
-* Run the Apache web server
+* Run in private application subnets
+* Run Apache Web Server
 * Receive traffic through the ALB
-* Are managed through Auto Scaling
-* Use IAM roles for AWS access
+* Are managed by Auto Scaling
+* Use IAM roles
 * Can be managed through AWS Systems Manager
 
 ---
 
 # 🗄️ Amazon RDS MySQL
 
-Amazon RDS is used as the managed relational database layer.
+Amazon RDS MySQL is used as the managed database layer.
 
-Database characteristics:
-
-* MySQL
-* Private subnet deployment
-* Not directly exposed to the internet
-* Access controlled through Security Groups
-* Used by the application tier
-
-Database flow:
+The database is deployed in private subnets.
 
 ```text
 EC2 Application
@@ -411,34 +404,36 @@ EC2 Application
 RDS MySQL
 ```
 
+Database access is controlled using Security Groups.
+
 ---
 
 # 🪣 Amazon S3
 
-Amazon S3 is used for object and application storage.
+Amazon S3 is used for object and application-related storage.
 
 Possible use cases include:
 
-* Static assets
-* Application files
-* Uploads
-* Backup objects
-* Project-related storage
+* Static files
+* Application uploads
+* Object storage
+* Backup-related storage
 
-Application access can be controlled using IAM permissions rather than exposing storage unnecessarily.
+Access can be controlled using IAM permissions.
 
 ---
 
 # 🔑 AWS Secrets Manager
 
-AWS Secrets Manager is used to securely store sensitive information such as:
+AWS Secrets Manager is used to securely store sensitive information.
+
+Examples:
 
 * Database credentials
 * Passwords
-* API secrets
-* Other application secrets
+* Application secrets
 
-Instead of hardcoding sensitive values inside application code, the application can retrieve them securely using IAM permissions.
+Application access can be controlled using IAM permissions.
 
 ```text
 EC2
@@ -450,21 +445,22 @@ Secrets Manager
 Application Secrets
 ```
 
+Sensitive values are not stored directly inside application source code.
+
 ---
 
 # 👤 AWS IAM
 
-AWS IAM controls access to AWS resources.
+AWS IAM is used to manage identities and permissions.
 
-IAM is used for:
+IAM provides:
 
 * Users
 * Roles
 * Policies
 * Permissions
-* EC2 service access
 
-The EC2 instances use an IAM role to securely access required AWS services without storing long-term access keys on the server.
+EC2 instances use IAM roles to access required AWS services securely.
 
 ---
 
@@ -474,10 +470,10 @@ AWS Systems Manager is used for secure EC2 management.
 
 It can provide:
 
-* Secure server access
 * Session Manager
+* Secure instance access
+* Remote administration
 * Instance management
-* Remote command execution
 * Operational management
 
 This reduces the need to expose SSH access directly to the internet.
@@ -486,16 +482,15 @@ This reduces the need to expose SSH access directly to the internet.
 
 # 🔒 HTTPS and AWS Certificate Manager
 
-AWS Certificate Manager (ACM) is used to provide SSL/TLS certificates for secure HTTPS communication.
+AWS Certificate Manager is used to provide SSL/TLS certificates.
 
-HTTPS provides:
+Project domain:
 
-* Encrypted communication
-* Data protection in transit
-* Secure browser connections
-* Certificate-based authentication
+```text
+krishnakumarcloud.online
+```
 
-Traffic flow:
+HTTPS provides encrypted communication between users and the application delivery layer.
 
 ```text
 User
@@ -511,11 +506,7 @@ EC2
 
 # 🌎 Amazon CloudFront
 
-Amazon CloudFront is used as the Content Delivery Network (CDN) layer.
-
-CloudFront helps deliver content through AWS edge locations and can improve application delivery performance.
-
-Architecture:
+Amazon CloudFront is used as the CDN layer.
 
 ```text
 User
@@ -527,32 +518,32 @@ Application Load Balancer
 EC2
 ```
 
-CloudFront and Route 53 have different responsibilities:
+CloudFront helps deliver application content through AWS edge locations.
 
-* **Route 53** → DNS management
-* **CloudFront** → Content delivery and CDN
-* **ALB** → Application traffic distribution
+### Route 53 vs CloudFront
+
+| Service    | Purpose                          |
+| ---------- | -------------------------------- |
+| Route 53   | DNS management                   |
+| CloudFront | CDN and content delivery         |
+| ALB        | Application traffic distribution |
 
 ---
 
 # 🌐 Amazon Route 53
 
-Amazon Route 53 is used for DNS management for the project domain.
+Amazon Route 53 is used for DNS management.
 
-Domain used:
+### Domain
 
 ```text
 krishnakumarcloud.online
 ```
 
-Route 53 provides DNS resolution and directs users toward the configured application delivery endpoint.
-
-Example flow:
+Request flow:
 
 ```text
 User
- |
-krishnakumarcloud.online
  |
 Route 53
  |
@@ -563,36 +554,41 @@ ALB
 EC2
 ```
 
+Route 53 resolves the domain and directs users to the configured application delivery endpoint.
+
 ---
 
 # 📊 Amazon CloudWatch
 
-Amazon CloudWatch is used for infrastructure monitoring.
+Amazon CloudWatch is used to monitor AWS infrastructure.
 
-Monitoring can include:
+Monitoring includes:
 
 * EC2 CPU utilization
-* Instance health
 * ALB metrics
-* Application performance metrics
 * Auto Scaling metrics
+* Instance health
 
-Example scaling/monitoring condition:
+Example alarm condition:
 
 ```text
 CPU Utilization > 70%
 for 5 minutes
 ```
 
-CloudWatch can trigger an alarm when the configured threshold is reached.
-
 ---
 
 # 🔔 Amazon SNS
 
-Amazon SNS is used for notifications and alert delivery.
+Amazon SNS is used for sending monitoring notifications.
 
-Example:
+### SNS Topic
+
+```text
+three-tier-alerts
+```
+
+Notification flow:
 
 ```text
 CloudWatch Alarm
@@ -601,16 +597,8 @@ CloudWatch Alarm
       SNS
        |
        ↓
-    Email
+     Email
 ```
-
-SNS topic used:
-
-```text
-three-tier-alerts
-```
-
-This allows important infrastructure alerts to be delivered through email notifications.
 
 ---
 
@@ -619,61 +607,68 @@ This allows important infrastructure alerts to be delivered through email notifi
 The complete application request flow is:
 
 ```text
-1. User opens the application domain
-             ↓
-2. Route 53 resolves the domain
-             ↓
-3. Request reaches CloudFront
-             ↓
-4. HTTPS secures the communication
-             ↓
-5. Request reaches Application Load Balancer
-             ↓
-6. ALB checks Target Group health
-             ↓
-7. ALB forwards request to a healthy EC2 instance
-             ↓
-8. EC2 processes the application request
-             ↓
-9. EC2 communicates with RDS when database data is required
-             ↓
-10. EC2 can access S3 for object storage
-             ↓
-11. Response returns to the user
+User
+  |
+  ↓
+Route 53
+  |
+  ↓
+CloudFront
+  |
+  ↓
+HTTPS
+  |
+  ↓
+Application Load Balancer
+  |
+  ↓
+Target Group
+  |
+  ↓
+EC2 Auto Scaling Group
+  |
+  ↓
+Application Server
+  |
+  +------→ RDS MySQL
+  |
+  +------→ Amazon S3
+  |
+  +------→ Secrets Manager
 ```
 
 ---
 
 # 🔐 Security Architecture
 
-The project follows multiple security layers.
+The project uses multiple layers of security.
 
 ### Network Security
 
 * VPC isolation
-* Private application subnets
-* Private database subnets
+* Public and private subnet separation
 * Security Groups
 * Controlled route tables
+* Private database layer
 
 ### Identity Security
 
 * IAM roles
-* Least-privilege permissions
-* No unnecessary long-term credentials
+* IAM policies
+* Controlled permissions
 
 ### Data Security
 
 * Private RDS deployment
-* Secrets Manager for sensitive values
-* HTTPS encryption
+* Secrets Manager
+* HTTPS
 * Controlled S3 access
 
-### Server Security
+### Server Management
 
 * Private EC2 instances
-* Systems Manager for management
-* Restricted security group rules
+* AWS Systems Manager
+* Restricted inbound access
 
 ---
 
@@ -681,67 +676,65 @@ The project follows multiple security layers.
 
 This project demonstrates practical knowledge of:
 
-* AWS VPC architecture
-* Public and private subnet design
+* AWS VPC
+* Public and private subnets
 * Internet Gateway
 * NAT Gateway
 * Route Tables
 * Security Groups
 * Multi-AZ architecture
+* Amazon EC2
 * Application Load Balancer
 * Target Groups
-* EC2
 * Auto Scaling
-* Amazon RDS
+* Amazon RDS MySQL
 * Amazon S3
 * CloudFront
 * Route 53
 * AWS Certificate Manager
 * AWS Secrets Manager
-* IAM
-* Systems Manager
-* CloudWatch
-* SNS
+* AWS IAM
+* AWS Systems Manager
+* Amazon CloudWatch
+* Amazon SNS
 * HTTPS
 * DNS
-* High availability
+* High Availability
 * Scalability
-* Fault tolerance
-* Infrastructure security
+* Fault Tolerance
+* Network Security
 
 ---
 
 # 🚀 Deployment Process
 
-The project was implemented through the following major stages:
+## Step 1 — Create VPC
 
-### Step 1 – Create VPC
-
-Created a dedicated VPC using:
+Created the VPC using:
 
 ```text
-CIDR: 10.0.0.0/16
+10.0.0.0/16
 ```
 
-### Step 2 – Create Subnets
+## Step 2 — Create Subnets
 
-Created public and private subnets across Availability Zones.
+Created public, private application and private database subnet architecture.
 
-### Step 3 – Configure Internet Gateway
+## Step 3 — Configure Internet Gateway
 
-Attached an Internet Gateway to the VPC for public internet connectivity.
+Attached the Internet Gateway to the VPC.
 
-### Step 4 – Configure NAT Gateway
+## Step 4 — Configure NAT Gateway
 
 Configured NAT Gateway access for private subnet outbound connectivity.
 
-### Step 5 – Configure Route Tables
+## Step 5 — Configure Route Tables
 
 Configured public and private routing.
 
-### Step 6 – Configure Security Groups
+## Step 6 — Configure Security Groups
 
-Created controlled security rules between:
+Configured controlled communication between:
 
 ```text
 Internet → ALB
@@ -749,272 +742,207 @@ ALB → EC2
 EC2 → RDS
 ```
 
-### Step 7 – Launch EC2
+## Step 7 — Launch EC2
 
 Created application servers inside private application subnets.
 
-### Step 8 – Configure Apache
+## Step 8 — Configure Apache
 
-Installed and configured Apache as the web server.
+Installed and configured Apache Web Server.
 
-### Step 9 – Create Target Group
+## Step 9 — Create Target Group
 
-Created a target group and configured health checks.
+Created the target group and configured health checks.
 
-### Step 10 – Create Application Load Balancer
+## Step 10 — Create Application Load Balancer
 
-Created an internet-facing Application Load Balancer.
+Created the internet-facing ALB.
 
-### Step 11 – Configure Auto Scaling
+## Step 11 — Configure Auto Scaling
 
-Created:
+Created the Launch Template and Auto Scaling Group.
 
-```text
-Launch Template
-       ↓
-Auto Scaling Group
-       ↓
-EC2 Instances
-```
+## Step 12 — Create RDS
 
-### Step 12 – Create RDS
+Created the private MySQL database.
 
-Created a private MySQL database for the database tier.
+## Step 13 — Configure S3
 
-### Step 13 – Configure S3
+Configured Amazon S3 for object storage.
 
-Created an S3 bucket for object/static storage.
+## Step 14 — Configure Secrets Manager
 
-### Step 14 – Configure Secrets Manager
+Configured secure storage for sensitive application information.
 
-Stored sensitive application/database information securely.
+## Step 15 — Configure IAM
 
-### Step 15 – Configure IAM
+Configured IAM roles and permissions.
 
-Created appropriate IAM roles and permissions.
+## Step 16 — Configure Systems Manager
 
-### Step 16 – Configure Systems Manager
+Configured secure EC2 management.
 
-Configured secure management of EC2 instances.
+## Step 17 — Configure ACM
 
-### Step 17 – Configure ACM
+Configured SSL/TLS certificates.
 
-Configured SSL/TLS certificates for HTTPS.
+## Step 18 — Configure CloudFront
 
-### Step 18 – Configure CloudFront
+Configured CloudFront as the CDN layer.
 
-Configured CloudFront for content delivery.
+## Step 19 — Configure Route 53
 
-### Step 19 – Configure Route 53
+Configured DNS for the project domain.
 
-Configured DNS for:
+## Step 20 — Configure CloudWatch
 
-```text
-krishnakumarcloud.online
-```
+Configured infrastructure monitoring and alarms.
 
-### Step 20 – Configure CloudWatch and SNS
+## Step 21 — Configure SNS
 
-Configured monitoring, alarms and email notifications.
+Configured email notifications for monitoring alerts.
 
-### Step 21 – Test Application
+## Step 22 — Validate Application
 
-Validated:
-
-* Application accessibility
-* ALB health checks
-* EC2 availability
-* Auto Scaling
-* Database connectivity
-* DNS resolution
-* HTTPS
-* Monitoring and notifications
+Validated the application, load balancer, target health, Auto Scaling, DNS, HTTPS and supporting AWS services.
 
 ---
 
 # 🧪 Testing and Validation
 
-The following components were validated during the project:
+The following components were validated during implementation:
 
-### VPC
-
-```text
-VPC created successfully
-```
-
-### EC2
-
-```text
-Application instances launched successfully
-```
-
-### Apache
-
-```text
-Apache Web Server → Running
-```
-
-### ALB
-
-```text
-Application Load Balancer → Configured
-```
-
-### Target Group
-
-```text
-Health Check → /
-```
-
-### Auto Scaling
-
-```text
-Minimum → 2
-Desired → 2
-Maximum → 4
-```
-
-### RDS
-
-```text
-MySQL Database → Private
-```
-
-### S3
-
-```text
-Object Storage → Configured
-```
-
-### DNS
-
-```text
-Route 53 → Domain Resolution
-```
-
-### HTTPS
-
-```text
-ACM → SSL/TLS Certificate
-```
-
-### Monitoring
-
-```text
-CloudWatch → Metrics and Alarms
-```
-
-### Notifications
-
-```text
-SNS → Email Alerts
-```
+* VPC configuration
+* Subnet configuration
+* Internet Gateway
+* NAT Gateway
+* Route Tables
+* Security Groups
+* EC2 instances
+* Apache Web Server
+* Application Load Balancer
+* Target Group health checks
+* Auto Scaling
+* RDS MySQL
+* Amazon S3
+* Secrets Manager
+* IAM
+* Systems Manager
+* ACM
+* CloudFront
+* Route 53
+* CloudWatch
+* SNS
+* Final application output
 
 ---
 
 # 📸 AWS Implementation Screenshots
 
-## Networking
+> **Important:** All screenshot paths below are relative to the root `README.md`.
+> The filenames must exactly match the files inside the `screenshots` folder.
+
+## 🌐 Networking
 
 ### VPC
 
-![VPC Configuration](screenshots/01-vpc.png)
+![VPC Configuration](./screenshots/01-vpc.png)
 
 ### Subnets
 
-![Subnet Configuration](screenshots/02-subnets.png)
+![Subnet Configuration](./screenshots/02-subnets.png)
 
 ### Internet Gateway
 
-![Internet Gateway](screenshots/03-internet-gateway.png)
+![Internet Gateway](./screenshots/03-internet-gateway.png)
 
 ### NAT Gateway
 
-![NAT Gateway](screenshots/04-nat-gateway.png)
+![NAT Gateway](./screenshots/04-nat-gateway.png)
 
 ### Route Tables
 
-![Route Tables](screenshots/05-route-tables.png)
+![Route Tables](./screenshots/05-route-tables.png)
 
 ### Security Groups
 
-![Security Groups](screenshots/06-security-groups.png)
+![Security Groups](./screenshots/06-security-groups.png)
 
 ---
 
-## Compute and Load Balancing
+## 🖥️ Compute and Load Balancing
 
 ### EC2 Instances
 
-![EC2 Instances](screenshots/07-ec2.png)
+![EC2 Instances](./screenshots/07-ec2.png)
 
 ### Application Load Balancer
 
-![Application Load Balancer](screenshots/08-alb.png)
+![Application Load Balancer](./screenshots/08-alb.png)
 
 ### Target Groups
 
-![Target Groups](screenshots/09-target-groups.png)
+![Target Groups](./screenshots/09-target-groups.png)
 
 ### Auto Scaling
 
-![Auto Scaling](screenshots/10-auto-scaling.png)
+![Auto Scaling](./screenshots/10-auto-scaling.png)
 
 ---
 
-## Storage and Database
+## 🗄️ Storage and Database
 
 ### Amazon RDS MySQL
 
-![RDS MySQL](screenshots/11-rds.png)
+![RDS MySQL](./screenshots/11-rds.png)
 
 ### Amazon S3
 
-![Amazon S3](screenshots/12-s3.png)
+![Amazon S3](./screenshots/12-s3.png)
 
 ---
 
-## DNS, CDN and HTTPS
+## 🌍 DNS, CDN and HTTPS
 
 ### CloudFront
 
-![CloudFront](screenshots/13-cloudfront.png)
+![CloudFront](./screenshots/13-cloudfront.png)
 
 ### Route 53
 
-![Route 53](screenshots/14-route53.png)
+![Route 53](./screenshots/14-route53.png)
 
 ### AWS Certificate Manager
 
-![AWS Certificate Manager](screenshots/15-acm.png)
+![AWS Certificate Manager](./screenshots/15-acm.png)
 
 ---
 
-## Security and Access Management
+## 🔐 Security and Access Management
 
 ### AWS Secrets Manager
 
-![Secrets Manager](screenshots/16-secrets-manager.png)
+![Secrets Manager](./screenshots/16-secrets-manager.png)
 
 ### Amazon CloudWatch
 
-![CloudWatch](screenshots/17-cloudwatch.png)
+![CloudWatch](./screenshots/17-cloudwatch.png)
 
 ### Amazon SNS
 
-![Amazon SNS](screenshots/18-sns.png)
+![Amazon SNS](./screenshots/18-sns.png)
 
 ### AWS IAM
 
-![AWS IAM](screenshots/19-iam.png)
+![AWS IAM](./screenshots/19-iam.png)
 
 ---
 
 # 🚀 Final Application Output
 
-The following screenshot shows the final deployed application output.
+The following screenshot shows the final application output after deployment.
 
-![Final Application Output](screenshots/20-final-application.png)
+![Final Application Output](./screenshots/20-final-application.png)
 
 ---
 
@@ -1026,9 +954,14 @@ AWS-3-Tier-Web-Application/
 ├── app.py
 ├── requirements.txt
 ├── README.md
+├── .gitignore
 │
 ├── architecture/
 │   └── architecture-diagram.png
+│
+├── scripts/
+│   ├── deployment-notes.md
+│   └── user-data.sh
 │
 ├── screenshots/
 │   ├── 01-vpc.png
@@ -1063,10 +996,8 @@ AWS-3-Tier-Web-Application/
 
 # 🎯 Project Objectives
 
-The main objectives of this project are:
-
 * Build a highly available AWS architecture
-* Implement a 3-Tier application design
+* Implement a 3-Tier application architecture
 * Deploy application servers across multiple Availability Zones
 * Implement Application Load Balancing
 * Configure Auto Scaling
@@ -1077,10 +1008,9 @@ The main objectives of this project are:
 * Enable HTTPS using ACM
 * Secure application secrets using Secrets Manager
 * Implement IAM-based access control
-* Manage EC2 instances using Systems Manager
+* Manage EC2 using Systems Manager
 * Monitor infrastructure using CloudWatch
 * Configure notifications using SNS
-* Gain practical AWS cloud architecture experience
 
 ---
 
@@ -1088,51 +1018,49 @@ The main objectives of this project are:
 
 * ☁️ AWS Cloud Architecture
 * 🏗️ 3-Tier Architecture
-* 🌐 Route 53 DNS
-* 🚀 CloudFront CDN
+* 🌐 Amazon Route 53
+* 🚀 Amazon CloudFront
 * ⚖️ Application Load Balancer
-* 🖥️ EC2 Application Servers
+* 🖥️ Amazon EC2
 * 📈 Auto Scaling
-* 🗄️ RDS MySQL
+* 🗄️ Amazon RDS MySQL
 * 🪣 Amazon S3
 * 🔐 AWS Secrets Manager
 * 👤 AWS IAM
 * 🛠️ AWS Systems Manager
 * 🔒 HTTPS with ACM
-* 📊 CloudWatch Monitoring
-* 🔔 SNS Notifications
-* 🌍 Multi-AZ Design
+* 📊 Amazon CloudWatch
+* 🔔 Amazon SNS
+* 🌍 Multi-AZ Architecture
 * 🔒 Private Subnet Architecture
 * 📡 Secure Network Segmentation
-* ♻️ Scalable Infrastructure
 
 ---
 
 # 🧩 Key Challenges Solved
 
-During implementation, several practical AWS infrastructure challenges were addressed, including:
+During implementation, practical AWS infrastructure challenges were addressed, including:
 
 * Private EC2 connectivity
 * Systems Manager connectivity
 * Security Group configuration
-* Route table configuration
+* Route Table configuration
 * NAT Gateway connectivity
 * ALB target health checks
-* Apache web server configuration
+* Apache Web Server configuration
 * Auto Scaling configuration
-* RDS private connectivity
+* Private RDS connectivity
 * DNS configuration
 * HTTPS certificate validation
 * CloudFront configuration
-* Monitoring and notification setup
-
-These troubleshooting activities provided practical experience in diagnosing AWS networking, compute, security and application availability issues.
+* CloudWatch monitoring
+* SNS notification configuration
 
 ---
 
 # 📚 Key Learning Outcomes
 
-Through this project, I gained hands-on experience with:
+Through this project, I gained practical experience with:
 
 ### AWS Networking
 
@@ -1161,8 +1089,8 @@ Through this project, I gained hands-on experience with:
 * IAM
 * Secrets Manager
 * Security Groups
-* HTTPS
 * ACM
+* HTTPS
 
 ### AWS Management
 
@@ -1170,11 +1098,11 @@ Through this project, I gained hands-on experience with:
 * CloudWatch
 * SNS
 
-### AWS Application Delivery
+### Application Delivery
 
 * Route 53
 * CloudFront
-* ALB
+* Application Load Balancer
 
 ---
 
@@ -1183,24 +1111,21 @@ Through this project, I gained hands-on experience with:
 Possible future enhancements include:
 
 * Infrastructure as Code using Terraform
-* CI/CD pipeline using AWS CodePipeline / GitHub Actions
-* Containerization using Docker
-* Container deployment using Amazon ECS
-* Centralized logging
+* CI/CD using GitHub Actions
+* Docker containerization
+* Amazon ECS / Fargate deployment
 * AWS WAF integration
-* Database backup and recovery automation
-* CloudWatch dashboard improvements
+* Centralized logging
+* Enhanced CloudWatch dashboards
+* Automated backup and recovery
 * Disaster recovery strategy
 * Cost optimization
-* Enhanced application monitoring
 
 ---
 
 # 🏆 Future Architecture Enhancements
 
-The architecture can be extended with additional AWS services to improve automation, security, observability and deployment efficiency.
-
-Possible improvements:
+The architecture can be extended with CI/CD and containerization.
 
 ```text
 GitHub
@@ -1214,7 +1139,7 @@ Amazon ECR
 Amazon ECS / Fargate
 ```
 
-Security can be enhanced with:
+Additional security can be introduced using AWS WAF.
 
 ```text
 CloudFront
@@ -1226,16 +1151,16 @@ ALB
 Application
 ```
 
-Monitoring can be expanded with:
+Monitoring can be expanded using:
 
 ```text
 CloudWatch
     |
-Logs + Metrics + Alarms
+Metrics + Logs + Alarms
     |
 SNS
     |
-Email Notifications
+Email
 ```
 
 ---
@@ -1246,7 +1171,7 @@ This project demonstrates the design and implementation of a **Highly Available 
 
 The architecture combines AWS networking, compute, database, storage, DNS, CDN, security and monitoring services to create a scalable and secure cloud environment.
 
-The project provides practical hands-on experience with:
+The project demonstrates practical knowledge of:
 
 ```text
 AWS Networking
@@ -1292,7 +1217,7 @@ Designed and implemented using AWS cloud architecture principles with a focus on
 
 **Krishna Kumar**
 
-**AWS Cloud Architect solution**
+**AWS Cloud Architecture | Cloud Enthusiast**
 
 GitHub: https://github.com/krishna-infosec21
 
@@ -1300,4 +1225,4 @@ GitHub: https://github.com/krishna-infosec21
 
 # 📄 License
 
-This project is created for **learning, portfolio development and demonstrating practical AWS Cloud Architecture skills**.
+This project is created for learning, portfolio development and demonstrating practical AWS Cloud Architecture skills.
