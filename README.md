@@ -40,7 +40,7 @@ This project demonstrates the practical implementation of a **secure, scalable a
 
 <p align="center">
   <a href="https://krishnakumarcloud.online">
-    <img src="screenshots/20-final-application.png" alt="Final application output served through Route 53, CloudFront, ALB and EC2" width="90%">
+    <img src="Screenshots/20-final-application.png" alt="Final application output served through Route 53, CloudFront, ALB and EC2" width="90%">
   </a>
 </p>
 
@@ -63,7 +63,7 @@ This project demonstrates the practical implementation of a **secure, scalable a
 ## 🏗️ Architecture Diagram
 
 <p align="center">
-  <img src="architecture/architecture-diagram.png" alt="AWS 3-Tier Architecture" width="90%">
+  <img src="Architecture/architecture-diagram.png" alt="AWS 3-Tier Architecture" width="90%">
 </p>
 
 ---
@@ -593,87 +593,87 @@ VPC · Subnets · Internet Gateway · NAT Gateway · Route Tables · Security Gr
 
 **VPC**
 
-![VPC Configuration](screenshots/01-vpc.png)
+![VPC Configuration](Screenshots/01-vpc.png)
 
 **Subnets**
 
-![Subnet Configuration](screenshots/02-subnets.png)
+![Subnet Configuration](Screenshots/02-subnets.png)
 
 **Internet Gateway**
 
-![Internet Gateway](screenshots/03-internet-gateway.png)
+![Internet Gateway](Screenshots/03-internet-gateway.png)
 
 **NAT Gateway**
 
-![NAT Gateway](screenshots/04-nat-gateway.png)
+![NAT Gateway](Screenshots/04-nat-gateway.png)
 
 **Route Tables**
 
-![Route Tables](screenshots/05-route-tables.png)
+![Route Tables](Screenshots/05-route-tables.png)
 
 **Security Groups**
 
-![Security Groups](screenshots/06-security-groups.png)
+![Security Groups](Screenshots/06-security-groups.png)
 
 ### 🖥️ Compute and Load Balancing
 
 **EC2 Instances**
 
-![EC2 Instances](screenshots/07-ec2.png)
+![EC2 Instances](Screenshots/07-ec2.png)
 
 **Application Load Balancer**
 
-![Application Load Balancer](screenshots/08-alb.png)
+![Application Load Balancer](Screenshots/08-alb.png)
 
 **Target Groups**
 
-![Target Groups](screenshots/09-target-groups.png)
+![Target Groups](Screenshots/09-target-groups.png)
 
 **Auto Scaling**
 
-![Auto Scaling](screenshots/10-auto-scaling.png)
+![Auto Scaling](Screenshots/10-auto-scaling.png)
 
 ### 🗄️ Storage and Database
 
 **Amazon RDS MySQL**
 
-![RDS MySQL](screenshots/11-rds.png)
+![RDS MySQL](Screenshots/11-rds.png)
 
 **Amazon S3**
 
-![Amazon S3](screenshots/12-s3.png)
+![Amazon S3](Screenshots/12-s3.png)
 
 ### 🌍 DNS, CDN and HTTPS
 
 **CloudFront**
 
-![CloudFront](screenshots/13-cloudfront.png)
+![CloudFront](Screenshots/13-cloudfront.png)
 
 **Route 53**
 
-![Route 53](screenshots/14-route53.png)
+![Route 53](Screenshots/14-route53.png)
 
 **AWS Certificate Manager**
 
-![AWS Certificate Manager](screenshots/15-acm.png)
+![AWS Certificate Manager](Screenshots/15-acm.png)
 
 ### 🔐 Security, Monitoring and Access Management
 
 **AWS Secrets Manager**
 
-![Secrets Manager](screenshots/16-secrets-manager.png)
+![Secrets Manager](Screenshots/16-secrets-manager.png)
 
 **Amazon CloudWatch**
 
-![CloudWatch](screenshots/17-cloudwatch.png)
+![CloudWatch](Screenshots/17-cloudwatch.png)
 
 **Amazon SNS**
 
-![Amazon SNS](screenshots/18-sns.png)
+![Amazon SNS](Screenshots/18-sns.png)
 
 **AWS IAM**
 
-![AWS IAM](screenshots/19-iam.png)
+![AWS IAM](Screenshots/19-iam.png)
 
 ---
 
