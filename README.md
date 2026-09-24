@@ -36,30 +36,6 @@ This project demonstrates the practical implementation of a **secure, scalable a
 
 ---
 
-## 🚀 Final Application Output
-
-<p align="center">
-  <a href="https://krishnakumarcloud.online">
-    <img src="Screenshots/20-final-application.png" alt="Final application output served through Route 53, CloudFront, ALB and EC2" width="90%">
-  </a>
-</p>
-
-<p align="center">
-  <em>Live application served over HTTPS through Route 53 → CloudFront → ALB → EC2 (Auto Scaling, Multi-AZ)</em>
-</p>
-
-| ✅ Verified | Status |
-|---|---|
-| HTTPS with ACM certificate | Working |
-| DNS resolution via Route 53 | Working |
-| CDN delivery via CloudFront | Working |
-| ALB target health checks | Healthy |
-| EC2 instances across 2 AZs | Running |
-| Private RDS MySQL connectivity | Working |
-| CloudWatch alarms + SNS email alerts | Configured |
-
----
-
 ## 🏗️ Architecture Diagram
 
 <p align="center">
@@ -677,24 +653,58 @@ VPC · Subnets · Internet Gateway · NAT Gateway · Route Tables · Security Gr
 
 ---
 
+## 🚀 Final Application Output
+
+<p align="center">
+  <a href="https://krishnakumarcloud.online">
+    <img src="Screenshots/20-final-application.png" alt="Final application output served through Route 53, CloudFront, ALB and EC2" width="90%">
+  </a>
+</p>
+
+<p align="center">
+  <em>Live application served over HTTPS through Route 53 → CloudFront → ALB → EC2 (Auto Scaling, Multi-AZ)</em>
+</p>
+
+| ✅ Verified | Status |
+|---|---|
+| HTTPS with ACM certificate | Working |
+| DNS resolution via Route 53 | Working |
+| CDN delivery via CloudFront | Working |
+| ALB target health checks | Healthy |
+| EC2 instances across 2 AZs | Running |
+| Private RDS MySQL connectivity | Working |
+| CloudWatch alarms + SNS email alerts | Configured |
+
+---
+
 ## 📁 Project Structure
 
 ```text
-Highly-Available-3-Tier-AWS/
+AWS-3-Tier-Web-Application/
 │
-├── app.py
-├── requirements.txt
-├── README.md
-├── .gitignore
+├── App/
+│   ├── app.py
+│   ├── requirements.txt
+│   ├── static/
+│   │   └── style.css
+│   └── templates/
+│       └── index.html
 │
-├── architecture/
+├── Architecture/
+│   ├── architecture-diagram.drawio
 │   └── architecture-diagram.png
 │
-├── scripts/
+├── Docs/
+│   ├── architecture.md
+│   ├── deployment.md
+│   ├── security.md
+│   └── troubleshooting.md
+│
+├── Scripts/
 │   ├── deployment-notes.md
 │   └── user-data.sh
 │
-├── screenshots/
+├── Screenshots/
 │   ├── 01-vpc.png
 │   ├── 02-subnets.png
 │   ├── 03-internet-gateway.png
@@ -716,11 +726,9 @@ Highly-Available-3-Tier-AWS/
 │   ├── 19-iam.png
 │   └── 20-final-application.png
 │
-└── docs/
-    ├── architecture.md
-    ├── deployment.md
-    ├── security.md
-    └── troubleshooting.md
+├── .gitignore
+├── LICENSE
+└── README.md
 ```
 
 ---
